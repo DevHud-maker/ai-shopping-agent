@@ -1,0 +1,12 @@
+<div id="ai-shopping-assistant-root"></div>
+
+{{ 'assistant.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'assistant.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "AI Shopping Assistant",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}
