@@ -1,6 +1,6 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "7bda035566d8be5334563e4956da708b"
+client_id = "56a097e4a28b85735636be6545ee8784"
 name = "ai-shopping-agent"
 application_url = "https://example.com"
 embedded = true

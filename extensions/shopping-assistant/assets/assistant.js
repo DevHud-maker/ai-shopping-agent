@@ -88,62 +88,62 @@
       return data;
     }
   
-async function askAssistant(query) {
-  state.loading = true;
-  render();
-
-  try {
-    const params = new URLSearchParams({
-      query,
-      messages: JSON.stringify(messages),
-    });
-
-    const response = await fetch(`/apps/assistant?${params.toString()}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    });
-
-    const rawText = await response.text();
-
-    let data = {};
-    try {
-      data = rawText ? JSON.parse(rawText) : {};
-    } catch (error) {
-      throw new Error("Server did not return valid JSON. Raw response: " + rawText);
+    async function askAssistant(query) {
+      state.loading = true;
+      render();
+  
+      try {
+        const response = await fetch("/apps/assistant", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            query,
+            messages,
+          }),
+        });
+  
+        const rawText = await response.text();
+  
+        let data = {};
+        try {
+          data = rawText ? JSON.parse(rawText) : {};
+        } catch (error) {
+          throw new Error("Server did not return valid JSON. Raw response: " + rawText);
+        }
+  
+        if (!response.ok) {
+            throw new Error(
+              (data && data.error)
+                ? `${data.error} (HTTP ${response.status})`
+                : `HTTP ${response.status}. Raw response: ${rawText || "[empty]"}`
+            );
+          }
+  
+        messages.push({
+          role: "assistant",
+          text: data.reply || "Here are some products I found.",
+          products: data.products || [],
+          filters: data.filters || null,
+        });
+  
+        saveMessages();
+      } catch (error) {
+        messages.push({
+          role: "assistant",
+          text: "Sorry, something went wrong: " + error.message,
+          products: [],
+          filters: null,
+        });
+        saveMessages();
+      } finally {
+        state.loading = false;
+        render();
+        scrollMessagesToBottom();
+      }
     }
-
-    if (!response.ok) {
-      throw new Error(
-        (data && data.error)
-          ? `${data.error} (HTTP ${response.status})`
-          : `HTTP ${response.status}. Raw response: ${rawText || "[empty]"}`
-      );
-    }
-
-    messages.push({
-      role: "assistant",
-      text: data.reply || "Here are some products I found.",
-      products: data.products || [],
-      filters: data.filters || null,
-    });
-
-    saveMessages();
-  } catch (error) {
-    messages.push({
-      role: "assistant",
-      text: "Sorry, something went wrong: " + error.message,
-      products: [],
-      filters: null,
-    });
-    saveMessages();
-  } finally {
-    state.loading = false;
-    render();
-    scrollMessagesToBottom();
-  }
-}
   
     function sendMessage() {
       const query = state.query.trim();

@@ -1,3 +1,4 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { authenticate } from "../shopify.server";
 
@@ -101,16 +102,7 @@ function extractPreviousFiltersFromMessages(messages) {
   return previous;
 }
 
-function parseMessagesParam(value) {
-  try {
-    const parsed = JSON.parse(value || "[]");
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-async function handleRecommend(request) {
+export const action = async ({ request }) => {
   try {
     if (!process.env.GEMINI_API_KEY) {
       return Response.json(
@@ -132,18 +124,9 @@ async function handleRecommend(request) {
       apiKey: process.env.GEMINI_API_KEY,
     });
 
-    let query = "";
-    let messages = [];
-
-    if (request.method === "GET") {
-      const url = new URL(request.url);
-      query = url.searchParams.get("query") || "";
-      messages = parseMessagesParam(url.searchParams.get("messages"));
-    } else {
-      const body = await request.json();
-      query = body.query || "";
-      messages = Array.isArray(body.messages) ? body.messages : [];
-    }
+    const body = await request.json();
+    const query = body.query || "";
+    const messages = Array.isArray(body.messages) ? body.messages : [];
 
     const recentConversation = messages
       .slice(-10)
@@ -412,12 +395,4 @@ Rules:
       { status: 500 },
     );
   }
-}
-
-export const loader = async ({ request }) => {
-  return handleRecommend(request);
-};
-
-export const action = async ({ request }) => {
-  return handleRecommend(request);
 };
