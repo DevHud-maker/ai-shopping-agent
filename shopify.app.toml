@@ -1,6 +1,6 @@
 client_id = "56a097e4a28b85735636be6545ee8784"
 name = "ai-shopping-agent"
-application_url = "https://dressed-manchester-apply-alaska.trycloudflare.com"
+application_url = "https://ai-shopping-agent-0hpw.onrender.com"
 embedded = true
 
 [build]
@@ -21,7 +21,7 @@ uri = "/webhooks/app/scopes_update"
 scopes = "read_products,write_products,read_customers,write_customers,read_orders,write_orders,read_discounts,write_discounts,read_files,write_files,read_metaobjects,write_metaobjects,read_content,write_content,read_companies,write_companies,read_shopify_payments_accounts,read_online_store_navigation,read_inventory,write_inventory,read_locations,read_markets_home"
 
 [auth]
-redirect_urls = [ "https://dressed-manchester-apply-alaska.trycloudflare.com/api/auth" ]
+redirect_urls = [ "https://ai-shopping-agent-0hpw.onrender.com/api/auth" ]
 
 [product.metafields.app.demo_info]
 type = "single_line_text_field"
@@ -48,6 +48,6 @@ name = "Description"
 type = "multi_line_text_field"
 
 [app_proxy]
-url = "https://dressed-manchester-apply-alaska.trycloudflare.com/proxy/recommend"
+url = "https://ai-shopping-agent-0hpw.onrender.com/proxy/recommend"
 subpath = "assistant"
 prefix = "apps"
