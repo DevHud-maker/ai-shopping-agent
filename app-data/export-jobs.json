@@ -1,0 +1,1492 @@
+{
+  "jobs": [
+    {
+      "id": "exp_1775080897676",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test222",
+        "format": "csv",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Command",
+            "Title",
+            "Body HTML",
+            "Vendor",
+            "Type",
+            "Tags",
+            "Tags Command",
+            "Created At",
+            "Updated At",
+            "Status",
+            "Published",
+            "Published At",
+            "Published Scope",
+            "Template Suffix",
+            "Gift Card",
+            "URL",
+            "Total Inventory Qty",
+            "Row #",
+            "Top Row",
+            "Category",
+            "Category: ID",
+            "Category: Name",
+            "Custom Collections",
+            "Smart Collections",
+            "Image Type",
+            "Image Src",
+            "Image Command",
+            "Image Position",
+            "Image Width",
+            "Image Height",
+            "Image Alt Text",
+            "Variant Inventory Item ID",
+            "Variant ID",
+            "Variant Command",
+            "Option1 Name",
+            "Option1 Value",
+            "Option2 Name",
+            "Option2 Value",
+            "Option3 Name",
+            "Option3 Value",
+            "Variant Position",
+            "Variant SKU",
+            "Variant Barcode",
+            "Variant Image",
+            "Variant Weight",
+            "Variant Weight Unit",
+            "Variant Price",
+            "Variant Compare At Price",
+            "Variant Taxable",
+            "Variant Tax Code",
+            "Variant Inventory Tracker",
+            "Variant Inventory Policy",
+            "Variant Fulfillment Service",
+            "Variant Requires Shipping",
+            "Variant Shipping Profile",
+            "Variant Inventory Qty",
+            "Variant Inventory Adjust",
+            "Variant Cost",
+            "Variant HS Code",
+            "Variant Country of Origin",
+            "Variant Province of Origin",
+            "Inventory Available: ...",
+            "Inventory Available Adjust: ...",
+            "Inventory On Hand: ...",
+            "Inventory On Hand Adjust: ...",
+            "Inventory Committed: ...",
+            "Inventory Reserved: ...",
+            "Inventory Damaged: ...",
+            "Inventory Damaged Adjust: ...",
+            "Inventory Safety Stock: ...",
+            "Inventory Safety Stock Adjust: ...",
+            "Inventory Quality Control: ...",
+            "Inventory Quality Control Adjust: ...",
+            "Inventory Incoming: ...",
+            "Included / ...",
+            "Price / ...",
+            "Compare At Price / ...",
+            "Metafield: ...",
+            "Variant Metafield: ..."
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "2026-04-01",
+        "scheduleOnTime": "00:00",
+        "timezone": "Europe/Zurich",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7513051857264",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/miqgpdaihi25l2ygw192usqehqbn-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775685697&Signature=enBvAMCQ7SoRE9paaOjbG7Rb7amWD0lkWndB%2FvEhGgehSTdAqbdKV5QlMtBnfmVCatRC6%2BCbqx8VlumTT%2BE7Vubdtg8nIGKVuKIQGgbhcwxh7rRACRPyBvSC7%2BoCZK5j6DvJGPeFcHl0SZE6SfFmqP60fqR1Dtf5tY7vt5GSbz4NQpaVHT7mlI1Z73p4yzW2JJAcK8VBXBf3x00oyv1vv1aTNXamYZWaG2eG4D0hM7uwut1TP3gFzfQTeKMkNJNRloV0YSPJAHKm1N4SEPX7Pcv4HN1BpxJzCsJ%2FHTjSmiLhuBf3sk5YGrwsi7RWF%2Fk6WHH4F8sVaf1r69GOO8pXyA%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7513051857264.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7513051857264.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775080897676__Export_2026-04-02_000144.zip",
+      "finalFileName": "Export_2026-04-02_000144.zip",
+      "finalContentType": "application/zip",
+      "createdAt": "2026-04-01T22:01:37.677Z",
+      "updatedAt": "2026-04-01T22:01:44.379Z"
+    },
+    {
+      "id": "exp_1775080154303",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Command",
+            "Title",
+            "Body HTML",
+            "Vendor",
+            "Type",
+            "Tags",
+            "Tags Command",
+            "Created At",
+            "Updated At",
+            "Status",
+            "Published",
+            "Published At",
+            "Published Scope",
+            "Template Suffix",
+            "Gift Card",
+            "URL",
+            "Total Inventory Qty",
+            "Row #",
+            "Top Row",
+            "Category",
+            "Category: ID",
+            "Category: Name",
+            "Custom Collections",
+            "Smart Collections",
+            "Image Type",
+            "Image Src",
+            "Image Command",
+            "Image Position",
+            "Image Width",
+            "Image Height",
+            "Image Alt Text",
+            "Variant Inventory Item ID",
+            "Variant ID",
+            "Variant Command",
+            "Option1 Name",
+            "Option1 Value",
+            "Option2 Name",
+            "Option2 Value",
+            "Option3 Name",
+            "Option3 Value",
+            "Variant Position",
+            "Variant SKU",
+            "Variant Barcode",
+            "Variant Image",
+            "Variant Weight",
+            "Variant Weight Unit",
+            "Variant Price",
+            "Variant Compare At Price",
+            "Variant Taxable",
+            "Variant Tax Code",
+            "Variant Inventory Tracker",
+            "Variant Inventory Policy",
+            "Variant Fulfillment Service",
+            "Variant Requires Shipping",
+            "Variant Shipping Profile",
+            "Variant Inventory Qty",
+            "Variant Inventory Adjust",
+            "Variant Cost",
+            "Variant HS Code",
+            "Variant Country of Origin",
+            "Variant Province of Origin",
+            "Inventory Available: ...",
+            "Inventory Available Adjust: ...",
+            "Inventory On Hand: ...",
+            "Inventory On Hand Adjust: ...",
+            "Inventory Committed: ...",
+            "Inventory Reserved: ...",
+            "Inventory Damaged: ...",
+            "Inventory Damaged Adjust: ...",
+            "Inventory Safety Stock: ...",
+            "Inventory Safety Stock Adjust: ...",
+            "Inventory Quality Control: ...",
+            "Inventory Quality Control Adjust: ...",
+            "Inventory Incoming: ...",
+            "Included / ...",
+            "Price / ...",
+            "Compare At Price / ...",
+            "Metafield: ...",
+            "Variant Metafield: ..."
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "2026-04-01",
+        "scheduleOnTime": "23:50",
+        "timezone": "Europe/Zurich",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7513012371824",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/nk7c0wapnk2vwv4engoqi94fanzn-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775684954&Signature=XCqNqxGD%2FNf7xhNpuz6qmG77%2BkkmSk2xNFRLoJn11CH%2FYpewyHYR6OWwjgFJllHoWpaS3VO65mzQ9OEr20pFO63vcotoxtA9qSN5Rz%2BFC0ww2fZqgOT2oNj0rgLJPJfvgKWL8osCDMm6sxPrB9pJn6kUswVyIM%2Br0r6A5rIg2bb%2BVMZj1XQ6F3HzezWFa3TqMOXjW1Bs7foD3uosgMmARSZ%2FaDswbtcCQlX36v7QpZ41ya32yjRxcWc7Lv7ZusNSKXfam2RPPkH1on%2B8WoM9qeRNT5XuR20uiJwR%2FTYrxsGMjvURD8Ev74l03e8E2%2BNuT%2BhOuU6k24YRnmqeEUEY7g%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7513012371824.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7513012371824.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775080154303__Export_2026-04-01_234920.xlsx",
+      "finalFileName": "Export_2026-04-01_234920.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T21:49:14.305Z",
+      "updatedAt": "2026-04-01T21:49:20.582Z"
+    },
+    {
+      "id": "exp_1775077127093",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test22",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Command",
+            "Title",
+            "Body HTML",
+            "Vendor",
+            "Type",
+            "Tags",
+            "Tags Command",
+            "Created At",
+            "Updated At",
+            "Status",
+            "Published",
+            "Published At",
+            "Published Scope",
+            "Template Suffix",
+            "Gift Card",
+            "URL",
+            "Total Inventory Qty",
+            "Row #",
+            "Top Row",
+            "Category",
+            "Category: ID",
+            "Category: Name",
+            "Custom Collections",
+            "Smart Collections",
+            "Image Type",
+            "Image Src",
+            "Image Command",
+            "Image Position",
+            "Image Width",
+            "Image Height",
+            "Image Alt Text",
+            "Variant Inventory Item ID",
+            "Variant ID",
+            "Variant Command",
+            "Option1 Name",
+            "Option1 Value",
+            "Option2 Name",
+            "Option2 Value",
+            "Option3 Name",
+            "Option3 Value",
+            "Variant Position",
+            "Variant SKU",
+            "Variant Barcode",
+            "Variant Image",
+            "Variant Weight",
+            "Variant Weight Unit",
+            "Variant Price",
+            "Variant Compare At Price",
+            "Variant Taxable",
+            "Variant Tax Code",
+            "Variant Inventory Tracker",
+            "Variant Inventory Policy",
+            "Variant Fulfillment Service",
+            "Variant Requires Shipping",
+            "Variant Shipping Profile",
+            "Variant Inventory Qty",
+            "Variant Inventory Adjust",
+            "Variant Cost",
+            "Variant HS Code",
+            "Variant Country of Origin",
+            "Variant Province of Origin",
+            "Inventory Available: ...",
+            "Inventory Available Adjust: ...",
+            "Inventory On Hand: ...",
+            "Inventory On Hand Adjust: ...",
+            "Inventory Committed: ...",
+            "Inventory Reserved: ...",
+            "Inventory Damaged: ...",
+            "Inventory Damaged Adjust: ...",
+            "Inventory Safety Stock: ...",
+            "Inventory Safety Stock Adjust: ...",
+            "Inventory Quality Control: ...",
+            "Inventory Quality Control Adjust: ...",
+            "Inventory Incoming: ...",
+            "Included / ...",
+            "Price / ...",
+            "Compare At Price / ...",
+            "Metafield: ...",
+            "Variant Metafield: ..."
+          ],
+          "smart_collections": [
+            "ID",
+            "Title",
+            "Handle",
+            "Updated At"
+          ],
+          "discounts": [
+            "ID",
+            "Title",
+            "Status",
+            "Starts At",
+            "Ends At"
+          ],
+          "draft_orders": [
+            "ID",
+            "Name",
+            "Status",
+            "Created At"
+          ],
+          "orders": [
+            "ID",
+            "Name",
+            "Financial Status",
+            "Fulfillment Status",
+            "Created At"
+          ],
+          "custom_collections": [
+            "ID",
+            "Title",
+            "Handle",
+            "Updated At"
+          ],
+          "customers": [
+            "ID",
+            "First Name",
+            "Last Name",
+            "Email",
+            "Tags"
+          ],
+          "payouts": [
+            "ID",
+            "Status",
+            "Issued At",
+            "Amount"
+          ],
+          "pages": [
+            "ID",
+            "Handle",
+            "Title",
+            "Published At"
+          ],
+          "companies": [
+            "ID",
+            "Name",
+            "External ID",
+            "Created At"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512851022192",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/gxy6nr5r4vvlym62d9z9nnjh4506-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775681926&Signature=FhxaNR2VArUQcM1HZruoFOqDcPs%2Bgin5apPDmZEaGdkUh%2BQ6WaYYMuqaqJi%2BtnIFGvl07Fv7XPggLmNsYNvpAVV22NEpqx%2B5YUtV4CxWReAymypn7NFANRZqkj8XC%2B2RO1fzZ7eLWzlHXQ7yDhwSO%2FsbEdWXh46YPWtfe43K1%2Bm5nUoXJT0l8IGVDdmlftXTN2V5yRImQjqHgjijpN95%2BsRL4GkLYMfuO7ZYMUs5IAuMCUDBe7898hJGL9Wjdo0PXC7r5F8S7NpP5AqxMMov4Da5JZrjznYLBD4WcEff4XHfE%2BgKT7Jh%2BFo6ZTayiEtYnmqUXQ6%2F4p8FVx7UMVwwKQ%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7512851022192.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7512851022192.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775077127093__Export_2026-04-01_225853.xlsx",
+      "finalFileName": "Export_2026-04-01_225853.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T20:58:47.095Z",
+      "updatedAt": "2026-04-01T20:58:53.353Z"
+    },
+    {
+      "id": "exp_1775075715798",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512785912176",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/yb2htuj13gp0uu87zbnwdgajk5sx-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775680515&Signature=ZjF%2FWz92LSBjj%2BJ%2B4jNd8Wz0hVxsHMSyLNtpTxNPeDm1rzqXrRSNTmubWaUZi0Esea1Xyd%2F0wu4PH21XOkJDsvA6irAzqJzqH4ssIVKaw%2FHdjKIzBQOhrfUDy9MSgGl7h5AkqQQOJBUaJQ7FnSxpKXM2I9lH9cyrthmjKl8NQ7SnaVAxHhNnGx9RjL%2F2AsCG4o0JmayTSJs50wre1trS%2BNPymJ888tuMbfth4QKa6wBFFZDxtC1%2FvU0P2h6DQWUEW0WhTC1OB69de7WW2M1Gx9nbk2RAjcuhNz3mtGmlhMspjvwIEiPLvfkFsjOqcQX%2BfRpd%2B7mApgwWD0suO0XQeg%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7512785912176.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7512785912176.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775075715798__Export_2026-04-01_223521.xlsx",
+      "finalFileName": "Export_2026-04-01_223521.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T20:35:15.800Z",
+      "updatedAt": "2026-04-01T20:35:22.042Z"
+    },
+    {
+      "id": "exp_1775075193462",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Command",
+            "Title",
+            "Body HTML",
+            "Vendor",
+            "Type",
+            "Tags",
+            "Tags Command",
+            "Created At",
+            "Updated At",
+            "Status",
+            "Published",
+            "Published At",
+            "Published Scope",
+            "Template Suffix",
+            "Gift Card",
+            "URL",
+            "Total Inventory Qty",
+            "Row #",
+            "Top Row",
+            "Category",
+            "Category: ID",
+            "Category: Name",
+            "Custom Collections",
+            "Smart Collections",
+            "Image Type",
+            "Image Src",
+            "Image Command",
+            "Image Position",
+            "Image Width",
+            "Image Height",
+            "Image Alt Text",
+            "Variant Inventory Item ID",
+            "Variant ID",
+            "Variant Command",
+            "Option1 Name",
+            "Option1 Value",
+            "Option2 Name",
+            "Option2 Value",
+            "Option3 Name",
+            "Option3 Value",
+            "Variant Position",
+            "Variant SKU",
+            "Variant Barcode",
+            "Variant Image",
+            "Variant Weight",
+            "Variant Weight Unit",
+            "Variant Price",
+            "Variant Compare At Price",
+            "Variant Taxable",
+            "Variant Tax Code",
+            "Variant Inventory Tracker",
+            "Variant Inventory Policy",
+            "Variant Fulfillment Service",
+            "Variant Requires Shipping",
+            "Variant Shipping Profile",
+            "Variant Inventory Qty",
+            "Variant Inventory Adjust",
+            "Variant Cost",
+            "Variant HS Code",
+            "Variant Country of Origin",
+            "Variant Province of Origin",
+            "Inventory Available: ...",
+            "Inventory Available Adjust: ...",
+            "Inventory On Hand: ...",
+            "Inventory On Hand Adjust: ...",
+            "Inventory Committed: ...",
+            "Inventory Reserved: ...",
+            "Inventory Damaged: ...",
+            "Inventory Damaged Adjust: ...",
+            "Inventory Safety Stock: ...",
+            "Inventory Safety Stock Adjust: ...",
+            "Inventory Quality Control: ...",
+            "Inventory Quality Control Adjust: ...",
+            "Inventory Incoming: ...",
+            "Included / ...",
+            "Price / ...",
+            "Compare At Price / ...",
+            "Metafield: ...",
+            "Variant Metafield: ..."
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512760549744",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/dqdzxjc434ke630h3lpohas8nzpc-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775679993&Signature=mIScTtACSTNMmQ49EwajUA2KbA6fpKKsNu5EoPHJJjK%2FxOKdNIqEIwiTEDGSuTS0Pjz%2BF2lcSNCFH2%2BAXlDPnMpVIGX8a4ethYR8dlL5oMUpzUmZ9BSozRSr9%2F67aS4Q5hwu3JYrLq6pXLhJ6f3oVuJJf1FT6530Lmow9EFDzlAxH6AZdtlfKwbZHSznK2Rb3VsSrsVGfzRXppvoC6Z3tL4Rgp40ded71t0yHTgPKNw9XHpb6vJ9Xky5z7YI2oR7vWcoR0raNvKrrmOPvhHmGdZyubsmNy1ff6XRpzWMoS450SCwxpxP2usAsQf5tmryn7FfaTrWnDR2pStnzxntAg%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7512760549744.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7512760549744.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775075193462__Export_2026-04-01_222639.xlsx",
+      "finalFileName": "Export_2026-04-01_222639.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T20:26:33.463Z",
+      "updatedAt": "2026-04-01T20:26:39.699Z"
+    },
+    {
+      "id": "exp_1775075168622",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512759533936",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/l0k3u8jxc6kmjdn4xazluty9186t-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775679968&Signature=nPgdQvt1KUCSF3dmpqHrqbGY4YqulemIHMRMDKd2Zv6Vck6JcZODMNNkhBzSNRtgOc83Geq0UeYl8sbRDIGtrufHQMbMpjJ0Ae5ibC8I2IQMztZg9XAccgO%2BC1ww0YqbjqOplDnPpYx9ochL%2FMq%2B0lVQMhLavQnrwfT%2BTDzg19putG2MWNIOyHSJyetuMvSN9FO2205OviXbZiCmvMy0m%2FXSDO65dTfkUQw6eZ3DcIF9ZueifmpIP9Flh98VQumCo6wdkeDZTEg1tTsBccRHzZJadlQxiRyDBHpaLvC43HRPeKFpZWzl7aSNocJTG3P%2B%2B5s1XxNalgtyoyd1HjMeLQ%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7512759533936.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7512759533936.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775075168622__Export_2026-04-01_222614.xlsx",
+      "finalFileName": "Export_2026-04-01_222614.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T20:26:08.624Z",
+      "updatedAt": "2026-04-01T20:26:14.745Z"
+    },
+    {
+      "id": "exp_1775075010011",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "testttt",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Command",
+            "Title",
+            "Body HTML",
+            "Vendor",
+            "Type",
+            "Tags",
+            "Tags Command",
+            "Created At",
+            "Updated At",
+            "Status",
+            "Published",
+            "Published At",
+            "Published Scope",
+            "Template Suffix",
+            "Gift Card",
+            "URL",
+            "Total Inventory Qty",
+            "Row #",
+            "Top Row",
+            "Category",
+            "Category: ID",
+            "Category: Name",
+            "Custom Collections",
+            "Smart Collections",
+            "Image Type",
+            "Image Src",
+            "Image Command",
+            "Image Position",
+            "Image Width",
+            "Image Height",
+            "Image Alt Text",
+            "Variant Inventory Item ID",
+            "Variant ID",
+            "Variant Command",
+            "Option1 Name",
+            "Option1 Value",
+            "Option2 Name",
+            "Option2 Value",
+            "Option3 Name",
+            "Option3 Value",
+            "Variant Position",
+            "Variant SKU",
+            "Variant Barcode",
+            "Variant Image",
+            "Variant Weight",
+            "Variant Weight Unit",
+            "Variant Price",
+            "Variant Compare At Price",
+            "Variant Taxable",
+            "Variant Tax Code",
+            "Variant Inventory Tracker",
+            "Variant Inventory Policy",
+            "Variant Fulfillment Service",
+            "Variant Requires Shipping",
+            "Variant Shipping Profile",
+            "Variant Inventory Qty",
+            "Variant Inventory Adjust",
+            "Variant Cost",
+            "Variant HS Code",
+            "Variant Country of Origin",
+            "Variant Province of Origin",
+            "Inventory Available: ...",
+            "Inventory Available Adjust: ...",
+            "Inventory On Hand: ...",
+            "Inventory On Hand Adjust: ...",
+            "Inventory Committed: ...",
+            "Inventory Reserved: ...",
+            "Inventory Damaged: ...",
+            "Inventory Damaged Adjust: ...",
+            "Inventory Safety Stock: ...",
+            "Inventory Safety Stock Adjust: ...",
+            "Inventory Quality Control: ...",
+            "Inventory Quality Control Adjust: ...",
+            "Inventory Incoming: ...",
+            "Included / ...",
+            "Price / ...",
+            "Compare At Price / ...",
+            "Metafield: ...",
+            "Variant Metafield: ..."
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512750260592",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/k3eyr4hdbehhogl4e7lh74yv0xd0-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775679809&Signature=IC7wO2Ly26enCprtapyvdtkJ8HVIvhaB%2FlefkC7SvPcWEtuBKXaSM11kVRBPSHy3Uzy1CBDLx62d9OCUJShCghwoe4ROv2%2FGFj3PRhj5A3BY4k%2BtbmGUplg2M2wsdQM3YKw5cDwVAkPj2SO8IfPami9Tkh5rf7T8LRK%2BkZjhkp5Jtfdx70kTPdPKMN5vEiasb7zK4ZG3hD98BZpUBfn4o0iK0jOnajN3yb9uUSX6Gt7wOnN9JoESLBgb9RGsZz2Xwp4%2Fmw8MbrDC0pWu5eQFfXFIiE1AUNwStAknJ7Lv1GpMKXxQP8B5teDkYsCQCMiNXWIk1wyPmKTuodu1ezox4Q%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7512750260592.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7512750260592.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775075010011__Export_2026-04-01_222336.xlsx",
+      "finalFileName": "Export_2026-04-01_222336.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T20:23:30.012Z",
+      "updatedAt": "2026-04-01T20:23:36.107Z"
+    },
+    {
+      "id": "exp_1775074923272",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test222",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512747639152",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/j8b9enfet3vdnmjyyw77ds46b2cf-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775679723&Signature=j9G0BrPp52HcNeRsUWObCnLZ5lNr7hsRtu9n73TEHR5kxVqZUXCvHSNZgwTKQL26hvI1R1EZLN7oBJUX%2B6dS7%2B2iiBe7ndKl346QqKFl7kd9m97jW04HTRt410DWmj6VNawX%2FogT6oDX5Tx0zvUno6WDElVXQtH5Hkfh91D8fg4Us2m1QIAIlJi7yFE7i52ZvtwykIQQaMy8c9fuSKtHUt%2BfVW4vwr75mRey%2FpxCi4L0huZd1k2QrOOulWBGabKQwgGXppVB0UZ9%2B3wtstd8HpS34eh5L6EhTO6d6YcVeVbrk82IQl314X5zpJX03iE1M55pWXRUpQLxQA8IyyPJiw%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7512747639152.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7512747639152.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775074923272__Export_2026-04-01_222209.xlsx",
+      "finalFileName": "Export_2026-04-01_222209.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T20:22:03.273Z",
+      "updatedAt": "2026-04-01T20:22:09.437Z"
+    },
+    {
+      "id": "exp_1775074881673",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "completed",
+      "config": {
+        "presetName": "test222",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "completed",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512745673072",
+          "url": "https://storage.googleapis.com/shopify-tiers-assets-prod-us-east1/bulk-operation-outputs/eb0bmhxl2kcw5tbk9j14x1pv4tbb-final?GoogleAccessId=assets-us-prod%40shopify-tiers.iam.gserviceaccount.com&Expires=1775679681&Signature=lngIRiPDWx1mycb0RHqHZ7dlnJnzwaXF4nMOLgGeUzSSlxG8TDr37X545l8u4psRaDB%2FY8eBOzISzGDKY9GEW5PP8D0NH0ZIlPo8lYJFmkuJlwzi6%2FKQNev4DhBp18IPaXM9%2FJl0t2PE9RQ%2Bz88gJR%2FpFis1NovzUk4zgn4dE35nc9NF8JyfxC%2BIDJBM%2FcQ41Det%2FV5udmmAANYdre%2FdpqUzrbaEhiCcUHsHAZaeuHeK%2BCr4eUXd4PDeJ%2FQ%2FYscdRwP1bHMEs9BuhRyXqnd0p3NE%2FQXUb4gJf7kgJdkxpfaojmZALLfpgwzeZKQp4ne9dpGwyySnSutaOwe2ZOH0IA%3D%3D&response-content-disposition=attachment%3B+filename%3D%22bulk-7512745673072.jsonl%22%3B+filename%2A%3DUTF-8%27%27bulk-7512745673072.jsonl&response-content-type=application%2Fjsonl",
+          "partialDataUrl": null,
+          "errorCode": null,
+          "objectCount": "6"
+        }
+      },
+      "message": "Export completed.",
+      "finalFilePath": "C:\\Users\\admin\\ai-shopping-agent\\app-data\\export-results\\exp_1775074881673__Export_2026-04-01_222127.xlsx",
+      "finalFileName": "Export_2026-04-01_222127.xlsx",
+      "finalContentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "createdAt": "2026-04-01T20:21:21.674Z",
+      "updatedAt": "2026-04-01T20:21:27.782Z"
+    },
+    {
+      "id": "exp_1775074627088",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test224",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512729321840"
+        }
+      },
+      "message": "Refresh failed: Field 'bulkOperation' doesn't exist on type 'QueryRoot'",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-04-01T20:17:07.089Z",
+      "updatedAt": "2026-04-01T20:17:53.561Z"
+    },
+    {
+      "id": "exp_1775074557102",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test22",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7512725127536"
+        }
+      },
+      "message": "Refresh failed: Field 'bulkOperation' doesn't exist on type 'QueryRoot'",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-04-01T20:15:57.106Z",
+      "updatedAt": "2026-04-01T20:17:03.043Z"
+    },
+    {
+      "id": "exp_1774957582302",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test3",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7506882855280"
+        }
+      },
+      "message": "Refresh failed: Field 'bulkOperation' doesn't exist on type 'QueryRoot'",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-03-31T11:46:22.306Z",
+      "updatedAt": "2026-03-31T11:47:33.663Z"
+    },
+    {
+      "id": "exp_1774957350499",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test2",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7506871058800"
+        }
+      },
+      "message": "Refresh failed: Field 'bulkOperation' doesn't exist on type 'QueryRoot'",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-03-31T11:42:30.503Z",
+      "updatedAt": "2026-03-31T11:44:41.313Z"
+    },
+    {
+      "id": "exp_1774956826085",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7506850447728"
+        }
+      },
+      "message": "Refresh failed: Field 'bulkOperation' doesn't exist on type 'QueryRoot'",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-03-31T11:33:46.087Z",
+      "updatedAt": "2026-03-31T11:42:20.213Z"
+    },
+    {
+      "id": "exp_1774956007838",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products",
+          "discounts",
+          "redirects",
+          "smart_collections",
+          "draft_orders",
+          "files",
+          "custom_collections",
+          "orders",
+          "menus",
+          "customers",
+          "payouts",
+          "metaobjects",
+          "companies",
+          "pages",
+          "shop"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Command",
+            "Title",
+            "Body HTML",
+            "Vendor",
+            "Type",
+            "Tags",
+            "Tags Command",
+            "Created At",
+            "Updated At",
+            "Status",
+            "Published",
+            "Published At",
+            "Published Scope",
+            "Template Suffix",
+            "Gift Card",
+            "URL",
+            "Total Inventory Qty",
+            "Row #",
+            "Top Row",
+            "Category",
+            "Category: ID",
+            "Category: Name",
+            "Custom Collections",
+            "Smart Collections",
+            "Image Type",
+            "Image Src",
+            "Image Command",
+            "Image Position",
+            "Image Width",
+            "Image Height",
+            "Image Alt Text",
+            "Variant Inventory Item ID",
+            "Variant ID",
+            "Variant Command",
+            "Option1 Name",
+            "Option1 Value",
+            "Option2 Name",
+            "Option2 Value",
+            "Option3 Name",
+            "Option3 Value",
+            "Variant Position",
+            "Variant SKU",
+            "Variant Barcode",
+            "Variant Image",
+            "Variant Weight",
+            "Variant Weight Unit",
+            "Variant Price",
+            "Variant Compare At Price",
+            "Variant Taxable",
+            "Variant Tax Code",
+            "Variant Inventory Tracker",
+            "Variant Inventory Policy",
+            "Variant Fulfillment Service",
+            "Variant Requires Shipping",
+            "Variant Shipping Profile",
+            "Variant Inventory Qty",
+            "Variant Inventory Adjust",
+            "Variant Cost",
+            "Variant HS Code",
+            "Variant Country of Origin",
+            "Variant Province of Origin",
+            "Inventory Available: ...",
+            "Inventory Available Adjust: ...",
+            "Inventory On Hand: ...",
+            "Inventory On Hand Adjust: ...",
+            "Inventory Committed: ...",
+            "Inventory Reserved: ...",
+            "Inventory Damaged: ...",
+            "Inventory Damaged Adjust: ...",
+            "Inventory Safety Stock: ...",
+            "Inventory Safety Stock Adjust: ...",
+            "Inventory Quality Control: ...",
+            "Inventory Quality Control Adjust: ...",
+            "Inventory Incoming: ...",
+            "Included / ...",
+            "Price / ...",
+            "Compare At Price / ...",
+            "Metafield: ...",
+            "Variant Metafield: ..."
+          ],
+          "discounts": [
+            "ID",
+            "Title",
+            "Status",
+            "Starts At",
+            "Ends At"
+          ],
+          "redirects": [
+            "ID",
+            "Path",
+            "Target"
+          ],
+          "smart_collections": [
+            "ID",
+            "Title",
+            "Handle",
+            "Updated At"
+          ],
+          "draft_orders": [
+            "ID",
+            "Name",
+            "Status",
+            "Created At"
+          ],
+          "files": [
+            "ID",
+            "Alt",
+            "Created At"
+          ],
+          "custom_collections": [
+            "ID",
+            "Title",
+            "Handle",
+            "Updated At"
+          ],
+          "orders": [
+            "ID",
+            "Name",
+            "Financial Status",
+            "Fulfillment Status",
+            "Created At"
+          ],
+          "menus": [
+            "ID",
+            "Handle",
+            "Title"
+          ],
+          "customers": [
+            "ID",
+            "First Name",
+            "Last Name",
+            "Email",
+            "Tags"
+          ],
+          "payouts": [
+            "ID",
+            "Status",
+            "Issued At",
+            "Amount"
+          ],
+          "metaobjects": [
+            "ID",
+            "Type",
+            "Handle",
+            "Updated At"
+          ],
+          "companies": [
+            "ID",
+            "Name",
+            "External ID",
+            "Created At"
+          ],
+          "pages": [
+            "ID",
+            "Handle",
+            "Title",
+            "Published At"
+          ],
+          "shop": [
+            "Name",
+            "Email",
+            "Domain",
+            "Currency"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7506809422192"
+        },
+        "discounts": {
+          "status": "queued"
+        },
+        "redirects": {
+          "status": "queued"
+        },
+        "smart_collections": {
+          "status": "queued"
+        },
+        "draft_orders": {
+          "status": "queued"
+        },
+        "files": {
+          "status": "queued"
+        },
+        "custom_collections": {
+          "status": "queued"
+        },
+        "orders": {
+          "status": "queued"
+        },
+        "menus": {
+          "status": "queued"
+        },
+        "customers": {
+          "status": "queued"
+        },
+        "payouts": {
+          "status": "queued"
+        },
+        "metaobjects": {
+          "status": "queued"
+        },
+        "companies": {
+          "status": "queued"
+        },
+        "pages": {
+          "status": "queued"
+        },
+        "shop": {
+          "status": "queued"
+        }
+      },
+      "message": "Started bulk export for products.",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-03-31T11:20:07.841Z",
+      "updatedAt": "2026-03-31T11:20:08.283Z"
+    },
+    {
+      "id": "exp_1774955955168",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7506804343152"
+        }
+      },
+      "message": "Started bulk export for products.",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-03-31T11:19:15.170Z",
+      "updatedAt": "2026-03-31T11:19:15.678Z"
+    },
+    {
+      "id": "exp_1774955247103",
+      "shop": "ai-agent-test-store-4.myshopify.com",
+      "status": "running",
+      "config": {
+        "presetName": "test",
+        "format": "excel",
+        "selectedEntities": [
+          "products"
+        ],
+        "selectedColumns": {
+          "products": [
+            "ID",
+            "Handle",
+            "Title",
+            "Status",
+            "Vendor"
+          ]
+        },
+        "filters": {},
+        "scheduleOnDate": "",
+        "scheduleOnTime": "00:00",
+        "timezone": "America/New_York",
+        "repeatEvery": 1,
+        "repeatUnit": "days",
+        "runUntil": "until_cancelled",
+        "runTimes": 1,
+        "customFileName": "Export_%Y-%m-%d_%H%M%S",
+        "fileNameTimeSource": "started_at",
+        "skipEmptyResults": true,
+        "uploadTo": "none",
+        "serverUrl": "",
+        "sorting": "shopify_order"
+      },
+      "entities": {
+        "products": {
+          "status": "running",
+          "bulkOperationId": "gid://shopify/BulkOperation/7506766496112"
+        }
+      },
+      "message": "Started bulk export for products.",
+      "finalFilePath": null,
+      "finalFileName": null,
+      "finalContentType": null,
+      "createdAt": "2026-03-31T11:07:27.105Z",
+      "updatedAt": "2026-03-31T11:07:27.558Z"
+    }
+  ]
+}
