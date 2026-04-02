@@ -5,6 +5,11 @@ function normalize(text) {
   return String(text || "").toLowerCase().trim();
 }
 
+function toNumber(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
 function getProductText(product) {
   return normalize(`
     ${product.title}
@@ -14,11 +19,6 @@ function getProductText(product) {
     ${product.productType || ""}
     ${product.vendor || ""}
   `);
-}
-
-function toNumber(value) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : 0;
 }
 
 function matchesText(product, value) {
@@ -31,28 +31,27 @@ function matchesPrice(product, maxPrice) {
   return toNumber(product.price) <= Number(maxPrice);
 }
 
-function basicScore(product, filters) {
+function scoreProduct(product, filters) {
   let score = 0;
   const text = getProductText(product);
+  const inventory = toNumber(product.totalInventory);
+  const price = toNumber(product.price);
+  const compareAtPrice = toNumber(product.compareAtPrice);
 
   if (filters.activity && text.includes(normalize(filters.activity))) score += 5;
   if (filters.productType && text.includes(normalize(filters.productType))) score += 5;
-  if (filters.color && text.includes(normalize(filters.color))) score += 4;
-  if (filters.recipient && text.includes(normalize(filters.recipient))) score += 1;
+  if (filters.color && text.includes(normalize(filters.color))) score += 3;
   if (filters.gender && text.includes(normalize(filters.gender))) score += 1;
+  if (filters.recipient && text.includes(normalize(filters.recipient))) score += 1;
   if (filters.intent === "gift") score += 1;
 
-  if (
-    filters.maxPrice !== null &&
-    filters.maxPrice !== undefined &&
-    toNumber(product.price) <= Number(filters.maxPrice)
-  ) {
+  if (filters.maxPrice !== null && filters.maxPrice !== undefined && price <= Number(filters.maxPrice)) {
     score += 3;
   }
 
-  const inventory = toNumber(product.totalInventory);
   if (inventory > 0) score += 2;
   if (inventory > 5) score += 1;
+  if (compareAtPrice > price && price > 0) score += 1;
 
   return score;
 }
@@ -118,26 +117,49 @@ function extractPreviousFiltersFromMessages(messages) {
   return previous;
 }
 
-function fallbackReply(filters) {
-  if (filters.color && filters.maxPrice !== null) {
-    return "I couldn’t find a strong in-stock match with that color and budget. Try a different color or a slightly higher budget.";
+function buildFollowUp(filters) {
+  if (filters.activity && !filters.productType) {
+    return `Are you looking for ${filters.activity} gloves, goggles, a jacket, a helmet, or something else?`;
   }
 
-  if (filters.productType) {
-    return "I couldn’t find a strong in-stock match for that product type. Try broadening the request a bit.";
+  if (filters.productType && filters.maxPrice === null) {
+    return `Do you want the best value option, or do you have a budget in mind?`;
   }
 
-  return "I couldn’t find a strong match in this store yet. Try adding details like product type, color, activity, or budget.";
+  return "What matters most here: budget, product type, or color?";
 }
 
-function buildSimpleReply(products, filters) {
-  if (!products.length) return fallbackReply(filters);
-
-  if (products.length === 1) {
-    return `I found 1 solid option for you: ${products[0].title}.`;
+function buildNoMatchReply(filters) {
+  if (filters.maxPrice !== null && filters.productType) {
+    return `I couldn’t find a strong in-stock ${filters.productType} match in that budget. I can show you the closest cheaper alternatives or broaden the search.`;
   }
 
-  return `I found ${products.length} strong options for you. The first picks are the closest matches based on your request.`;
+  if (filters.activity && !filters.productType) {
+    return `I couldn’t find a strong in-stock match just from "${filters.activity}". Tell me the product type and I’ll narrow it down fast.`;
+  }
+
+  return "I couldn’t find a strong in-stock match yet. Try adding a product type, budget, or color.";
+}
+
+function classifyBundle(product, allProducts) {
+  const currentType = normalize(product.productType);
+  const titleText = getProductText(product);
+
+  const desiredTypes = [];
+
+  if (titleText.includes("ski") || titleText.includes("snow")) {
+    if (!currentType.includes("gog")) desiredTypes.push("goggles");
+    if (!currentType.includes("helmet")) desiredTypes.push("helmet");
+    if (!currentType.includes("glove")) desiredTypes.push("gloves");
+  }
+
+  const matches = allProducts
+    .filter((p) => toNumber(p.totalInventory) > 0)
+    .filter((p) => p.id !== product.id)
+    .filter((p) => desiredTypes.some((type) => getProductText(p).includes(type)))
+    .slice(0, 2);
+
+  return matches;
 }
 
 export const action = async ({ request }) => {
@@ -170,7 +192,6 @@ export const action = async ({ request }) => {
     }
 
     const previousFilters = extractPreviousFiltersFromMessages(messages);
-
     const recentConversation = messages
       .slice(-10)
       .map((message) => ({
@@ -186,7 +207,7 @@ export const action = async ({ request }) => {
     const shopifyResponse = await admin.graphql(`
       #graphql
       query GetProducts {
-        products(first: 80) {
+        products(first: 100) {
           edges {
             node {
               id
@@ -256,9 +277,9 @@ export const action = async ({ request }) => {
     const intentResult = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: `
-You are an ecommerce shopping assistant.
+You are a high-converting ecommerce sales assistant.
 
-Your job is to understand the shopper request and update filters using the latest message plus prior context.
+Update shopping filters from the latest shopper message plus prior context.
 
 Previous known filters:
 ${JSON.stringify(previousFilters, null, 2)}
@@ -266,7 +287,7 @@ ${JSON.stringify(previousFilters, null, 2)}
 Recent conversation:
 ${JSON.stringify(recentConversation, null, 2)}
 
-Latest user request:
+Latest shopper request:
 "${query}"
 
 Return only JSON in this exact shape:
@@ -287,20 +308,14 @@ Return only JSON in this exact shape:
 }
 
 Rules:
-- Preserve previous known filters unless the shopper clearly changes them
-- Do NOT erase an earlier valid filter just because the latest message does not mention it
-- Only set a field to null if the shopper clearly says they no longer care about it
-- "intent" can be values like "gift", "shopping", or null
-- "activity" means category/sport like ski, snowboard, hiking, running
-- "color" is requested color
-- "maxPrice" is maximum budget number only
-- "recipient" can be values like dad, mom, boyfriend, friend, child
-- "productType" can be values like gloves, goggles, poles, jacket, helmet, snowboard
-- "gender" can be male, female, unisex, or null
+- Preserve earlier valid filters unless shopper clearly changes them
+- "intent" can be gift, shopping, or null
+- "activity" can be ski, snowboard, hiking, running, etc.
+- "productType" can be gloves, goggles, jacket, helmet, poles, snowboard, etc.
 - "stage" can be browse, choose, hesitate, cart, buy
 - "objection" can be price, shipping, returns, quality, size, or null
-- If enough information exists to show useful results, set needsMoreInfo to false
-- If the request is still too vague, ask one short follow-up question
+- If enough info exists to show useful results, set needsMoreInfo to false
+- If broad, ask one short useful question
 - Return JSON only
 `,
       config: {
@@ -344,22 +359,6 @@ Rules:
     const parsedIntent = JSON.parse(intentResult.text);
     const filters = mergeFilterObjects(previousFilters, parsedIntent.filters);
 
-    if (parsedIntent.needsMoreInfo) {
-      return Response.json({
-        filters,
-        products: [],
-        reply:
-          parsedIntent.followUpQuestion ||
-          "What matters most to you here: budget, product type, or color?",
-        needsMoreInfo: true,
-        cta: null,
-        salesMeta: {
-          stage: filters.stage,
-          objection: filters.objection,
-        },
-      });
-    }
-
     const candidates = products
       .filter((product) => matchesText(product, filters.activity))
       .filter((product) => matchesText(product, filters.color))
@@ -368,18 +367,18 @@ Rules:
       .filter((product) => toNumber(product.totalInventory) > 0)
       .map((product) => ({
         ...product,
-        score: basicScore(product, filters),
+        score: scoreProduct(product, filters),
       }))
       .sort((a, b) => b.score - a.score)
       .slice(0, 12);
 
-    if (candidates.length === 0) {
+    if (!candidates.length) {
       return Response.json({
         filters,
         products: [],
-        reply: fallbackReply(filters),
+        reply: buildNoMatchReply(filters),
         needsMoreInfo: false,
-        cta: null,
+        cta: "Try a broader search",
         salesMeta: {
           stage: filters.stage,
           objection: filters.objection,
@@ -387,16 +386,27 @@ Rules:
       });
     }
 
-    const rerankResult = await ai.models.generateContent({
+    const best = candidates[0];
+    const better = candidates[1] || null;
+    const premium = candidates[2] || null;
+    const bundleSuggestions = classifyBundle(best, products);
+
+    const recommendationResult = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: `
-You are an ecommerce shopping assistant.
+You are a high-converting ecommerce sales chatbot.
+
+Shopper query:
+"${query}"
 
 Shopper filters:
 ${JSON.stringify(filters, null, 2)}
 
-Candidate products:
-${JSON.stringify(candidates, null, 2)}
+Top candidates:
+${JSON.stringify(candidates.slice(0, 6), null, 2)}
+
+Bundle suggestions:
+${JSON.stringify(bundleSuggestions, null, 2)}
 
 Return only JSON in this exact shape:
 {
@@ -406,12 +416,13 @@ Return only JSON in this exact shape:
 }
 
 Rules:
-- Pick up to 4 best products
-- Prefer products that best match budget, activity, color, recipient, and product type
-- Write a short natural-language reply
-- If intent is gift, sound like a helpful gift recommender
-- If the shopper shows price hesitation, highlight value
-- CTA should be short
+- Pick up to 4 products
+- Sound helpful, specific, and sales-oriented, but not pushy
+- If broad, present picks as good / better / premium when possible
+- If price objection exists, highlight best value
+- If gift intent exists, sound like a gift recommender
+- Mention a next step in the reply when useful
+- CTA should be short and action-oriented
 - Return JSON only
 `,
       config: {
@@ -431,26 +442,59 @@ Rules:
       },
     });
 
-    const reranked = JSON.parse(rerankResult.text);
-    const topIds = Array.isArray(reranked.topProductIds)
-      ? reranked.topProductIds
+    const parsedRecommendation = JSON.parse(recommendationResult.text);
+    const topIds = Array.isArray(parsedRecommendation.topProductIds)
+      ? parsedRecommendation.topProductIds
       : [];
 
     let finalProducts = candidates.filter((product) => topIds.includes(product.id));
-
-    if (finalProducts.length === 0) {
+    if (!finalProducts.length) {
       finalProducts = candidates.slice(0, 4);
+    }
+
+    let reply = parsedRecommendation.reply;
+    if (!reply) {
+      const names = finalProducts.slice(0, 3).map((p) => p.title).join(", ");
+      reply = `I found some strong matches for you: ${names}. I can narrow them further by budget, color, or product type.`;
+    }
+
+    let cta = parsedRecommendation.cta || null;
+    if (!cta) {
+      if (filters.stage === "hesitate" || filters.objection === "price") {
+        cta = "See best-value picks";
+      } else if (parsedIntent.needsMoreInfo) {
+        cta = buildFollowUp(filters);
+      } else {
+        cta = "Add your favorite to cart";
+      }
+    }
+
+    const responseProducts = [...finalProducts];
+
+    for (const extra of bundleSuggestions) {
+      if (responseProducts.length >= 4) break;
+      if (!responseProducts.find((p) => p.id === extra.id)) {
+        responseProducts.push({
+          ...extra,
+          isUpsell: true,
+        });
+      }
     }
 
     return Response.json({
       filters,
-      products: finalProducts,
-      reply: reranked.reply || buildSimpleReply(finalProducts, filters),
+      products: responseProducts.slice(0, 4),
+      reply,
       needsMoreInfo: false,
-      cta: reranked.cta || "Add your favorite to cart",
+      cta,
       salesMeta: {
         stage: filters.stage,
         objection: filters.objection,
+        goodBetterBest: {
+          good: best?.id || null,
+          better: better?.id || null,
+          premium: premium?.id || null,
+        },
       },
     });
   } catch (error) {

@@ -6,7 +6,7 @@
   let messages = [
     {
       role: "assistant",
-      text: "Hi! I can help you find the right product fast — or show best-value picks if you're not sure yet.",
+      text: "Hi! I can help you find the right product fast, compare options, or suggest the best-value pick.",
       products: [],
       filters: null,
       cta: null,
@@ -33,7 +33,6 @@
 
   function loadMessages() {
     const raw = sessionStorage.getItem("ai_assistant_messages");
-
     if (!raw) return;
 
     try {
@@ -42,7 +41,7 @@
       messages = [
         {
           role: "assistant",
-          text: "Hi! I can help you find the right product fast — or show best-value picks if you're not sure yet.",
+          text: "Hi! I can help you find the right product fast, compare options, or suggest the best-value pick.",
           products: [],
           filters: null,
           cta: null,
@@ -53,9 +52,7 @@
 
   function scrollMessagesToBottom() {
     const box = document.getElementById("assistant-messages");
-    if (box) {
-      box.scrollTop = box.scrollHeight;
-    }
+    if (box) box.scrollTop = box.scrollHeight;
   }
 
   async function addToCart(variantId) {
@@ -127,7 +124,7 @@
 
       messages.push({
         role: "assistant",
-        text: data.reply || "Here are some products I found.",
+        text: data.reply || "I found some options for you.",
         products: Array.isArray(data.products) ? data.products : [],
         filters: data.filters || null,
         cta: data.cta || null,
@@ -153,7 +150,6 @@
 
   function sendMessage(prefill) {
     const outgoing = typeof prefill === "string" ? prefill.trim() : state.query.trim();
-
     if (!outgoing || state.loading) return;
 
     messages.push({
@@ -229,6 +225,7 @@
             const variantId = escapeHtml(p.variantId || "");
             const handle = escapeHtml(p.handle || "");
             const inventory = Number(p.totalInventory || 0);
+            const isUpsell = Boolean(p.isUpsell);
 
             return `
               <div style="
@@ -247,7 +244,13 @@
                 <div style="flex:1;min-width:0;">
                   <div style="font-weight:600;color:#111827;">${title}</div>
 
-                  <div style="font-size:14px;color:#111827;">
+                  ${
+                    isUpsell
+                      ? `<div style="font-size:12px;color:#065f46;margin-top:4px;">Recommended add-on</div>`
+                      : ""
+                  }
+
+                  <div style="font-size:14px;color:#111827;margin-top:4px;">
                     ${
                       compareAtPrice
                         ? `<span style="text-decoration:line-through;color:#6b7280;margin-right:6px;">${compareAtPrice}</span>`
@@ -310,10 +313,11 @@
 
   function renderQuickPrompts() {
     const prompts = [
-      "Show me snowboard products",
-      "I want ski gloves under 100",
+      "Show me ski gloves under 100",
+      "I want snowboard gear",
       "What is the best-value gift?",
       "I need a cheaper option",
+      "What should I add with this?",
     ];
 
     return `
@@ -465,7 +469,7 @@
             <input
               id="assistant-input"
               value="${escapeHtml(state.query)}"
-              placeholder="Ask for products, budget picks, or gift ideas"
+              placeholder="Ask for products, cheaper options, or gift ideas"
               style="
                 flex:1;
                 padding:10px;
@@ -533,9 +537,7 @@
     document.querySelectorAll(".assistant-prompt").forEach((button) => {
       button.onclick = function () {
         const prompt = button.getAttribute("data-prompt");
-        if (prompt) {
-          sendMessage(prompt);
-        }
+        if (prompt) sendMessage(prompt);
       };
     });
 
