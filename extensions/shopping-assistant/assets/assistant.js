@@ -110,7 +110,7 @@
     try {
       const cartItems = await getCartItems();
 
-      const response = await fetch("/apps/assistant", {
+      const response = await fetch("/apps/recommend", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
