@@ -767,10 +767,20 @@ export default function ExportPage() {
       body: JSON.stringify(config),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || "Export failed.");
+if (!response.ok) {
+  const errorText = await response.text();
+
+  try {
+    const parsed = JSON.parse(errorText);
+    if ((parsed?.code === "PLAN_REQUIRED" || parsed?.code === "PLAN_LIMIT") && parsed?.upgradeUrl) {
+      window.location.href = parsed.upgradeUrl;
+      return;
     }
+    throw new Error(parsed?.message || "Export failed.");
+  } catch {
+    throw new Error(errorText || "Export failed.");
+  }
+}
 
     const blob = await response.blob();
     const contentDisposition = response.headers.get("Content-Disposition") || "";
@@ -801,9 +811,13 @@ export default function ExportPage() {
     const text = await response.text();
     const data = JSON.parse(text);
 
-    if (!response.ok || !data.ok) {
-      throw new Error(data?.message || "Failed to start bulk export.");
-    }
+if (!response.ok || !data.ok) {
+  if ((data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") && data?.upgradeUrl) {
+    window.location.href = data.upgradeUrl;
+    return;
+  }
+  throw new Error(data?.message || "Failed to start bulk export.");
+}
 
     setMessage(data.message || "Bulk export job started.");
 
@@ -864,10 +878,13 @@ export default function ExportPage() {
       const text = await res.text();
       const data = JSON.parse(text);
 
-      if (!res.ok || !data.ok) {
-        setMessage(data?.message || "Failed to save schedule.");
-        return;
-      }
+if (!response.ok || !data.ok) {
+  if ((data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") && data?.upgradeUrl) {
+    window.location.href = data.upgradeUrl;
+    return;
+  }
+  throw new Error(data?.message || "Failed to start bulk export.");
+}
 
       setMessage("Schedule saved.");
       await refreshSchedules();

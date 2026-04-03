@@ -810,6 +810,7 @@ export async function buildExportFile(
   admin: any,
   shop: string,
   config: ExportConfig,
+  options?: { rowLimit?: number | null },
 ): Promise<ExportFile> {
   if (!config.selectedEntities?.length) {
     throw new Error("No entities selected.");
@@ -818,12 +819,15 @@ export async function buildExportFile(
   const entityRows: EntityRows = {};
 
   for (const entity of config.selectedEntities) {
-    const rows = await fetchEntityRows(
-      admin,
-      shop,
-      entity,
-      config.filters?.[entity] || "",
-    );
+const rows = await fetchEntityRows(
+  admin,
+  shop,
+  entity,
+  config.filters?.[entity] || "",
+);
+
+const limitedRows =
+  options?.rowLimit != null ? rows.slice(0, options.rowLimit) : rows;
 
     const selectedColumns = config.selectedColumns?.[entity] || [];
     const normalized =

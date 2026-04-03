@@ -1,5 +1,6 @@
 import { data, type ActionFunctionArgs } from "react-router";
 import { authenticate } from "../shopify.server";
+import { getCurrentPlan, FREE_LIMITS } from "../services/plan.server";
 
 type EntityType = "products" | "variants" | "customers";
 
@@ -862,6 +863,7 @@ async function applyEntityChanges(
 export async function action({ request }: ActionFunctionArgs) {
   const { admin } = await authenticate.admin(request);
   const body = (await request.json()) as Body;
+  const plan = await getCurrentPlan(admin);
 
   try {
     if (body.mode === "list") {
@@ -874,14 +876,33 @@ export async function action({ request }: ActionFunctionArgs) {
             ? await getAllVariants(admin, search)
             : await getAllCustomers(admin, search);
 
+      const visibleRows = plan.hasPaidPlan
+        ? rows
+        : rows.slice(0, FREE_LIMITS.bulkEditViewRows);
+
       return data({
         ok: true,
-        rows,
-        count: rows.length,
+        rows: visibleRows,
+        count: visibleRows.length,
+        plan: plan.plan,
+        upgradeRequired: !plan.hasPaidPlan && rows.length > FREE_LIMITS.bulkEditViewRows,
+        upgradeUrl: !plan.hasPaidPlan ? "/app/upgrade" : null,
       });
     }
 
     if (body.mode === "apply") {
+      if (!plan.hasPaidPlan) {
+        return data(
+          {
+            ok: false,
+            code: "PLAN_REQUIRED",
+            message: "Bulk save is available on the Pro plan.",
+            upgradeUrl: "/app/upgrade",
+          },
+          { status: 402 },
+        );
+      }
+
       const ids = normalizeIds(body.ids);
       if (!ids.length) {
         return data({ ok: false, message: "No rows selected." }, { status: 400 });
@@ -896,12 +917,27 @@ export async function action({ request }: ActionFunctionArgs) {
 
     if (body.mode === "csv-apply") {
       const rows = Array.isArray(body.rows) ? body.rows : [];
+
       if (!rows.length) {
         return data({ ok: false, message: "CSV rows are empty." }, { status: 400 });
       }
 
+      if (!plan.hasPaidPlan && rows.length > FREE_LIMITS.importRows) {
+        return data(
+          {
+            ok: false,
+            code: "PLAN_LIMIT",
+            message: `Free plan allows importing up to ${FREE_LIMITS.importRows} rows. Upgrade to import unlimited products.`,
+            upgradeUrl: "/app/upgrade",
+          },
+          { status: 402 },
+        );
+      }
+
       let count = 0;
-      for (const row of rows) {
+      const rowsToProcess = !plan.hasPaidPlan ? rows.slice(0, FREE_LIMITS.importRows) : rows;
+
+      for (const row of rowsToProcess) {
         const id = String(row.id || "").trim();
         if (!id) continue;
 
