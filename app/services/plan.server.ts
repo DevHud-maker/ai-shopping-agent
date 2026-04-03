@@ -1,19 +1,68 @@
-import { redirect } from "react-router";
-import type { LoaderFunctionArgs } from "react-router";
-import { authenticate } from "../shopify.server";
+export type AppPlan = "free" | "pro";
 
-function getStoreHandle(shopDomain: string) {
-  return shopDomain.replace(".myshopify.com", "");
+type SubscriptionInfo = {
+  id: string;
+  name: string;
+  status: string;
+  test?: boolean;
+  currentPeriodEnd?: string | null;
+};
+
+export const FREE_LIMITS = {
+  bulkEditViewRows: 100,
+  importRows: 100,
+  exportRows: 100,
+};
+
+async function gql(admin: any, query: string, variables?: Record<string, any>) {
+  const res = await admin.graphql(query, { variables });
+  const json = await res.json();
+
+  if (json.errors?.length) {
+    throw new Error(json.errors.map((e: any) => e.message).join("; "));
+  }
+
+  return json.data;
 }
 
-// IMPORTANT: replace this with your real app handle from Shopify
-const APP_HANDLE = "bulkpilot";
+// ✅ THIS IS THE IMPORTANT EXPORT
+export async function getCurrentPlan(admin: any): Promise<{
+  plan: AppPlan;
+  subscription: SubscriptionInfo | null;
+  hasPaidPlan: boolean;
+}> {
+  const data = await gql(
+    admin,
+    `#graphql
+    query {
+      currentAppInstallation {
+        activeSubscriptions {
+          id
+          name
+          status
+          test
+          currentPeriodEnd
+        }
+      }
+    }`
+  );
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { session } = await authenticate.admin(request);
+  const subs = data?.currentAppInstallation?.activeSubscriptions ?? [];
+  const active = subs[0] ?? null;
 
-  const storeHandle = getStoreHandle(session.shop);
-  const pricingUrl = `https://admin.shopify.com/store/${storeHandle}/charges/${APP_HANDLE}/pricing_plans`;
+  if (!active) {
+    return {
+      plan: "free",
+      subscription: null,
+      hasPaidPlan: false,
+    };
+  }
 
-  throw redirect(pricingUrl);
+  const isPro = String(active.name || "").toLowerCase().includes("pro");
+
+  return {
+    plan: isPro ? "pro" : "free",
+    subscription: active,
+    hasPaidPlan: isPro,
+  };
 }
