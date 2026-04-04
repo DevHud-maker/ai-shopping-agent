@@ -140,6 +140,10 @@ type ImportResponse = {
   remainingRows?: number;
   nextBatchStart?: number;
   done?: boolean;
+  code?: "PLAN_LIMIT" | "PLAN_REQUIRED";
+  upgradeUrl?: string;
+  plan?: string;
+  hasPaidPlan?: boolean;
   summary?: {
     create?: number;
     update?: number;
@@ -169,6 +173,7 @@ const badgeStyles: Record<string, React.CSSProperties> = {
   created: { background: "#dcfce7", color: "#166534", border: "1px solid #86efac" },
   updated: { background: "#ffedd5", color: "#c2410c", border: "1px solid #fdba74" },
   info: { background: "#dbeafe", color: "#1d4ed8", border: "1px solid #93c5fd" },
+  warning: { background: "#fef3c7", color: "#92400e", border: "1px solid #fcd34d" },
 };
 
 function Badge({ children, tone }: { children: React.ReactNode; tone: string }) {
@@ -257,6 +262,11 @@ export default function DashboardImportPage() {
     }
   }
 
+  function redirectToUpgrade(upgradeUrl?: string) {
+    const url = upgradeUrl || "/app/upgrade";
+    window.location.href = url;
+  }
+
   async function sendPreview() {
     if (!file) return;
 
@@ -274,6 +284,17 @@ export default function DashboardImportPage() {
       });
 
       const data: ImportResponse = await parseJsonResponse(res);
+
+      if (!res.ok || !data.ok) {
+        if ((data?.code === "PLAN_LIMIT" || data?.code === "PLAN_REQUIRED") && data?.upgradeUrl) {
+          redirectToUpgrade(data.upgradeUrl);
+          return;
+        }
+
+        setResult(data);
+        return;
+      }
+
       setResult(data);
 
       if (data?.headerMap) {
@@ -298,6 +319,11 @@ export default function DashboardImportPage() {
     const totalRows = result.totalRows;
     const batchSize = result.recommendedBatchSize || 50;
     let batchStart = 0;
+    const aggregatedResults: Array<{
+      title: string;
+      action: "created" | "updated" | "unchanged";
+      sku?: string;
+    }> = [];
 
     setProgress({
       totalRows,
@@ -325,12 +351,18 @@ export default function DashboardImportPage() {
 
         const data: ImportResponse = await parseJsonResponse(res);
 
-        if (!data.ok) {
+        if (!res.ok || !data.ok) {
+          if ((data?.code === "PLAN_LIMIT" || data?.code === "PLAN_REQUIRED") && data?.upgradeUrl) {
+            redirectToUpgrade(data.upgradeUrl);
+            return;
+          }
+
           throw new Error(data.message || "Import failed.");
         }
 
         if (data.results?.length) {
-          setLiveImportResults((prev) => [...prev, ...data.results!]);
+          aggregatedResults.push(...data.results);
+          setLiveImportResults([...aggregatedResults]);
         }
 
         const completedRows = data.completedRows ?? Math.min(batchStart + batchSize, totalRows);
@@ -359,7 +391,7 @@ export default function DashboardImportPage() {
         mode: "import",
         message: finalMessage,
         totalRows,
-        results: liveImportResults,
+        results: aggregatedResults,
       }));
 
       setProgress((prev) =>
@@ -457,6 +489,21 @@ export default function DashboardImportPage() {
           >
             Smart Import
           </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: 16,
+            padding: "12px 14px",
+            borderRadius: 12,
+            background: "#fef3c7",
+            border: "1px solid #fcd34d",
+            color: "#92400e",
+            fontSize: 13,
+            fontWeight: 600,
+          }}
+        >
+          Free plan: import up to 100 products. Upgrade to unlock unlimited imports.
         </div>
 
         <div style={{ marginTop: 20 }}>
@@ -601,7 +648,25 @@ export default function DashboardImportPage() {
               {typeof result.recommendedBatchSize === "number" ? (
                 <Badge tone="info">Batch size: {result.recommendedBatchSize}</Badge>
               ) : null}
+
+              {result.code === "PLAN_LIMIT" ? (
+                <Badge tone="warning">Upgrade required</Badge>
+              ) : null}
             </div>
+
+            {result.code === "PLAN_LIMIT" && result.upgradeUrl ? (
+              <div style={{ marginTop: 16 }}>
+                <button
+                  onClick={() => redirectToUpgrade(result.upgradeUrl)}
+                  style={{
+                    ...buttonOrange,
+                    cursor: "pointer",
+                  }}
+                >
+                  Upgrade to continue
+                </button>
+              </div>
+            ) : null}
 
             {result.errors?.length ? (
               <div style={{ marginTop: 18 }}>

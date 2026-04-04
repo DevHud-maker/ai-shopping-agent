@@ -1,6 +1,7 @@
 import { data } from "react-router";
 import type { ActionFunctionArgs } from "react-router";
 import { authenticate } from "../shopify.server";
+import { getCurrentPlan, FREE_LIMITS } from "../services/plan.server";
 import {
   mapImportedRows,
   type HeaderMap,
@@ -32,6 +33,7 @@ function parsePositiveInt(value: FormDataEntryValue | null, fallback: number) {
 
 export async function action({ request }: ActionFunctionArgs) {
   const { admin } = await authenticate.admin(request);
+  const plan = await getCurrentPlan(admin);
   const formData = await request.formData();
 
   const file = formData.get("file");
@@ -71,14 +73,33 @@ export async function action({ request }: ActionFunctionArgs) {
         totalRows: mapped.rows.length,
         mode: "preview",
       },
-      { status: 100 },
+      { status: 400 },
     );
   }
 
   const totalRows = validated.rows.length;
 
+  if (!plan.hasPaidPlan && totalRows > FREE_LIMITS.importRows) {
+    return data(
+      {
+        ok: false,
+        code: "PLAN_LIMIT",
+        message: `Free plan allows importing up to ${FREE_LIMITS.importRows} rows. Upgrade to import unlimited products.`,
+        upgradeUrl: "/app/upgrade",
+        totalRows,
+        mode: "preview",
+        headers: mapped.headers,
+        headerMap: mapped.headerMap,
+        autoHeaderMap: mapped.autoHeaderMap,
+        deterministicMap: mapped.deterministicMap,
+        aiMap: mapped.aiMap,
+      },
+      { status: 402 },
+    );
+  }
+
   if (mode === "preview") {
-    const PREVIEW_LIMIT = 100;
+    const PREVIEW_LIMIT = Math.min(100, FREE_LIMITS.importRows);
     const previewSourceRows = validated.rows.slice(0, PREVIEW_LIMIT);
     const previewData = await previewImportedProducts(admin, previewSourceRows);
 
@@ -99,6 +120,8 @@ export async function action({ request }: ActionFunctionArgs) {
       totalRows,
       previewRowsShown: previewSourceRows.length,
       recommendedBatchSize: 100,
+      plan: plan.plan,
+      hasPaidPlan: plan.hasPaidPlan,
     });
   }
 
@@ -131,7 +154,11 @@ export async function action({ request }: ActionFunctionArgs) {
     });
   }
 
-  const importRows = validated.rows.slice(batchStart, batchStart + batchSize);
+  const safeBatchSize = !plan.hasPaidPlan
+    ? Math.min(batchSize, FREE_LIMITS.importRows)
+    : batchSize;
+
+  const importRows = validated.rows.slice(batchStart, batchStart + safeBatchSize);
   const executed = await executeImportedProducts(admin, importRows);
 
   const completedRows = Math.min(batchStart + importRows.length, totalRows);
@@ -147,7 +174,7 @@ export async function action({ request }: ActionFunctionArgs) {
       : `Imported batch ${batchStart + 1}–${completedRows} of ${totalRows}.`,
     totalRows,
     batchStart,
-    batchSize,
+    batchSize: safeBatchSize,
     processedInBatch: importRows.length,
     completedRows,
     remainingRows,

@@ -758,78 +758,93 @@ export default function ExportPage() {
     }
   }
 
-  async function downloadDirectFile() {
-    const response = await fetch("/app/export-api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(config),
-    });
+async function downloadDirectFile() {
+  const response = await fetch("/app/export-api", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(config),
+    credentials: "same-origin",
+  });
 
-if (!response.ok) {
-  const errorText = await response.text();
+  if (!response.ok) {
+    const errorText = await response.text();
 
-  try {
-    const parsed = JSON.parse(errorText);
-    if ((parsed?.code === "PLAN_REQUIRED" || parsed?.code === "PLAN_LIMIT") && parsed?.upgradeUrl) {
-      window.location.href = parsed.upgradeUrl;
+    try {
+      const parsed = JSON.parse(errorText);
+
+      if (
+        (parsed?.code === "PLAN_REQUIRED" || parsed?.code === "PLAN_LIMIT") &&
+        parsed?.upgradeUrl
+      ) {
+        window.location.href = parsed.upgradeUrl;
+        return;
+      }
+
+      throw new Error(parsed?.message || "Export failed.");
+    } catch {
+      throw new Error(errorText || "Export failed.");
+    }
+  }
+
+  const blob = await response.blob();
+  const contentDisposition = response.headers.get("Content-Disposition") || "";
+  const match = contentDisposition.match(/filename="([^"]+)"/i);
+  const filename = match?.[1] || "export";
+
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+
+  setMessage(`Export downloaded: ${filename}`);
+}
+
+
+async function startBulkExport() {
+  const response = await fetch("/app/export-start", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(config),
+    credentials: "same-origin",
+  });
+
+  const text = await response.text();
+  const data = JSON.parse(text);
+
+  if (!response.ok || !data.ok) {
+    if (
+      (data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") &&
+      data?.upgradeUrl
+    ) {
+      window.location.href = data.upgradeUrl;
       return;
     }
-    throw new Error(parsed?.message || "Export failed.");
-  } catch {
-    throw new Error(errorText || "Export failed.");
-  }
-}
 
-    const blob = await response.blob();
-    const contentDisposition = response.headers.get("Content-Disposition") || "";
-    const match = contentDisposition.match(/filename="([^"]+)"/i);
-    const filename = match?.[1] || "export";
-
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-
-    setMessage(`Export downloaded: ${filename}`);
+    throw new Error(data?.message || "Failed to start bulk export.");
   }
 
-  async function startBulkExport() {
-    const response = await fetch("/app/export-start", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(config),
-    });
+  setMessage(data.message || "Bulk export job started.");
 
-    const text = await response.text();
-    const data = JSON.parse(text);
-
-if (!response.ok || !data.ok) {
-  if ((data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") && data?.upgradeUrl) {
-    window.location.href = data.upgradeUrl;
-    return;
-  }
-  throw new Error(data?.message || "Failed to start bulk export.");
-}
-
-    setMessage(data.message || "Bulk export job started.");
-
-    if (data.jobId) {
-      const statusRes = await fetch(`/app/export-status?id=${encodeURIComponent(data.jobId)}`);
-      const statusText = await statusRes.text();
-      const statusData = JSON.parse(statusText);
-      if (statusRes.ok) {
-        setActiveJob(statusData);
-      }
+  if (data.jobId) {
+    const statusRes = await fetch(
+      `/app/export-status?id=${encodeURIComponent(data.jobId)}`
+    );
+    const statusText = await statusRes.text();
+    const statusData = JSON.parse(statusText);
+    if (statusRes.ok) {
+      setActiveJob(statusData);
     }
   }
+}
+
 
   async function handleExportNow() {
     if (!config.selectedEntities.length) {
@@ -878,12 +893,17 @@ if (!response.ok || !data.ok) {
       const text = await res.text();
       const data = JSON.parse(text);
 
-if (!response.ok || !data.ok) {
-  if ((data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") && data?.upgradeUrl) {
+if (!res.ok || !data.ok) {
+  if (
+    (data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") &&
+    data?.upgradeUrl
+  ) {
     window.location.href = data.upgradeUrl;
     return;
   }
-  throw new Error(data?.message || "Failed to start bulk export.");
+
+  setMessage(data?.message || "Failed to save schedule.");
+  return;
 }
 
       setMessage("Schedule saved.");
