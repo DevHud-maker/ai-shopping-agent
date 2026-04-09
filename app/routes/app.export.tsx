@@ -494,15 +494,6 @@ function formatDateTime(value?: string | null) {
   return d.toLocaleString();
 }
 
-function redirectToUpgrade(upgradeUrl?: string) {
-  const url = upgradeUrl || "/app/upgrade";
-  if (window.top) {
-    window.top.location.assign(url);
-    return;
-  }
-  window.location.assign(url);
-}
-
 export default function ExportPage() {
   const [config, setConfig] = useState<ExportConfig>({
     presetName: "",
@@ -544,6 +535,17 @@ export default function ExportPage() {
     !!message &&
     /failed|error|denied|missing|not approved|access|unauthorized/i.test(message);
 
+  function redirectToUpgrade(upgradeUrl?: string) {
+    const url = upgradeUrl || "/app/upgrade";
+
+    if (url.startsWith("/")) {
+      window.location.assign(url);
+      return;
+    }
+
+    window.open(url, "_top");
+  }
+
   useEffect(() => {
     if (!activeJob?.id) return;
     if (activeJob.status === "completed" || activeJob.status === "failed") return;
@@ -575,9 +577,10 @@ export default function ExportPage() {
 
   async function refreshSchedules() {
     try {
-      const res = await fetch("/app/export-schedules", {
-        credentials: "same-origin",
-      });
+      const res = await fetch(
+        "/app/export-schedules",
+        { credentials: "same-origin" },
+      );
       const text = await res.text();
       const data = JSON.parse(text);
       if (Array.isArray(data)) {

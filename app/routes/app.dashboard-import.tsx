@@ -264,11 +264,13 @@ export default function DashboardImportPage() {
 
   function redirectToUpgrade(upgradeUrl?: string) {
     const url = upgradeUrl || "/app/upgrade";
-    if (window.top) {
-      window.top.location.assign(url);
+
+    if (url.startsWith("/")) {
+      window.location.assign(url);
       return;
     }
-    window.location.assign(url);
+
+    window.open(url, "_top");
   }
 
   async function sendPreview() {
@@ -282,11 +284,14 @@ export default function DashboardImportPage() {
       form.append("mode", "preview");
       form.append("manualHeaderMap", JSON.stringify(manualHeaderMap));
 
-      const res = await fetch("/app/dashboard-import-api", {
-        method: "POST",
-        body: form,
-        credentials: "same-origin",
-      });
+      const res = await fetch(
+        "/app/dashboard-import-api",
+        {
+          method: "POST",
+          body: form,
+          credentials: "same-origin",
+        },
+      );
 
       const data: ImportResponse = await parseJsonResponse(res);
 
@@ -349,11 +354,14 @@ export default function DashboardImportPage() {
         form.append("batchStart", String(batchStart));
         form.append("batchSize", String(batchSize));
 
-        const res = await fetch("/app/dashboard-import-api", {
-          method: "POST",
-          body: form,
-          credentials: "same-origin",
-        });
+        const res = await fetch(
+          "/app/dashboard-import-api",
+          {
+            method: "POST",
+            body: form,
+            credentials: "same-origin",
+          },
+        );
 
         const data: ImportResponse = await parseJsonResponse(res);
 
