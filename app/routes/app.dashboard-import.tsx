@@ -267,25 +267,89 @@ export default function DashboardImportPage() {
     window.location.href = url;
   }
 
-  async function sendPreview() {
-    if (!file) return;
+async function sendPreview() {
+  if (!file) return;
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
+  try {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("mode", "preview");
+    form.append("manualHeaderMap", JSON.stringify(manualHeaderMap));
+
+    const res = await fetch("/app/dashboard-import-api", {
+      method: "POST",
+      body: form,
+      credentials: "same-origin",
+    });
+
+    const data: ImportResponse = await parseJsonResponse(res);
+
+    if (!res.ok || !data.ok) {
+      if ((data?.code === "PLAN_LIMIT" || data?.code === "PLAN_REQUIRED") && data?.upgradeUrl) {
+        redirectToUpgrade(data.upgradeUrl);
+        return;
+      }
+
+      setResult(data);
+      return;
+    }
+
+    setResult(data);
+
+    if (data?.headerMap) {
+      setManualHeaderMap(data.headerMap);
+    }
+  } catch (e) {
+    setResult({
+      ok: false,
+      message: e instanceof Error ? e.message : "Preview failed",
+    });
+  } finally {
+    setLoading(false);
+  }
+}
+
+async function runChunkedImport() {
+  if (!file || !result?.totalRows) return;
+
+  setImporting(true);
+  setLiveImportResults([]);
+
+  const totalRows = result.totalRows;
+  const batchSize = result.recommendedBatchSize || 50;
+  let batchStart = 0;
+  const aggregatedResults: Array<{
+    title: string;
+    action: "created" | "updated" | "unchanged";
+    sku?: string;
+  }> = [];
+
+  setProgress({
+    totalRows,
+    completedRows: 0,
+    percentage: 0,
+    running: true,
+    batchMessage: "Starting import...",
+  });
+
+  let finalMessage = `Import finished. Processed ${totalRows} row(s).`;
+
+  try {
+    while (batchStart < totalRows) {
       const form = new FormData();
       form.append("file", file);
-      form.append("mode", "preview");
+      form.append("mode", "import");
       form.append("manualHeaderMap", JSON.stringify(manualHeaderMap));
+      form.append("batchStart", String(batchStart));
+      form.append("batchSize", String(batchSize));
 
-      const res = await fetch(
-        window.location.origin + "/app/dashboard-import-api",
-        {
-          method: "POST",
-          body: form,
-          credentials: "same-origin",
-        },
-      );
+      const res = await fetch("/app/dashboard-import-api", {
+        method: "POST",
+        body: form,
+        credentials: "same-origin",
+      });
 
       const data: ImportResponse = await parseJsonResponse(res);
 
@@ -295,147 +359,77 @@ export default function DashboardImportPage() {
           return;
         }
 
-        setResult(data);
-        return;
+        throw new Error(data.message || "Import failed.");
       }
 
-      setResult(data);
-
-      if (data?.headerMap) {
-        setManualHeaderMap(data.headerMap);
-      }
-    } catch (e) {
-      setResult({
-        ok: false,
-        message: e instanceof Error ? e.message : "Preview failed",
-      });
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function runChunkedImport() {
-    if (!file || !result?.totalRows) return;
-
-    setImporting(true);
-    setLiveImportResults([]);
-
-    const totalRows = result.totalRows;
-    const batchSize = result.recommendedBatchSize || 50;
-    let batchStart = 0;
-    const aggregatedResults: Array<{
-      title: string;
-      action: "created" | "updated" | "unchanged";
-      sku?: string;
-    }> = [];
-
-    setProgress({
-      totalRows,
-      completedRows: 0,
-      percentage: 0,
-      running: true,
-      batchMessage: "Starting import...",
-    });
-
-    let finalMessage = `Import finished. Processed ${totalRows} row(s).`;
-
-    try {
-      while (batchStart < totalRows) {
-        const form = new FormData();
-        form.append("file", file);
-        form.append("mode", "import");
-        form.append("manualHeaderMap", JSON.stringify(manualHeaderMap));
-        form.append("batchStart", String(batchStart));
-        form.append("batchSize", String(batchSize));
-
-        const res = await fetch(
-          window.location.origin + "/app/dashboard-import-api",
-          {
-            method: "POST",
-            body: form,
-            credentials: "same-origin",
-          },
-        );
-
-        const data: ImportResponse = await parseJsonResponse(res);
-
-        if (!res.ok || !data.ok) {
-          if ((data?.code === "PLAN_LIMIT" || data?.code === "PLAN_REQUIRED") && data?.upgradeUrl) {
-            redirectToUpgrade(data.upgradeUrl);
-            return;
-          }
-
-          throw new Error(data.message || "Import failed.");
-        }
-
-        if (data.results?.length) {
-          aggregatedResults.push(...data.results);
-          setLiveImportResults([...aggregatedResults]);
-        }
-
-        const completedRows = data.completedRows ?? Math.min(batchStart + batchSize, totalRows);
-        const percentage = totalRows > 0 ? Math.round((completedRows / totalRows) * 100) : 0;
-
-        setProgress({
-          totalRows,
-          completedRows,
-          percentage,
-          running: !data.done,
-          batchMessage: data.message,
-        });
-
-        finalMessage = data.message || finalMessage;
-
-        if (data.done) {
-          break;
-        }
-
-        batchStart = data.nextBatchStart ?? completedRows;
+      if (data.results?.length) {
+        aggregatedResults.push(...data.results);
+        setLiveImportResults([...aggregatedResults]);
       }
 
-      setResult((prev) => ({
-        ...(prev ?? { ok: true, message: finalMessage }),
-        ok: true,
-        mode: "import",
-        message: finalMessage,
+      const completedRows = data.completedRows ?? Math.min(batchStart + batchSize, totalRows);
+      const percentage = totalRows > 0 ? Math.round((completedRows / totalRows) * 100) : 0;
+
+      setProgress({
         totalRows,
-        results: aggregatedResults,
-      }));
+        completedRows,
+        percentage,
+        running: !data.done,
+        batchMessage: data.message,
+      });
 
-      setProgress((prev) =>
-        prev
-          ? {
-              ...prev,
-              completedRows: totalRows,
-              percentage: 100,
-              running: false,
-              batchMessage: finalMessage,
-            }
-          : null,
-      );
-    } catch (e) {
-      const message = e instanceof Error ? e.message : "Import failed";
+      finalMessage = data.message || finalMessage;
 
-      setResult((prev) => ({
-        ...(prev ?? { ok: false, message }),
-        ok: false,
-        message,
-        mode: "import",
-      }));
+      if (data.done) {
+        break;
+      }
 
-      setProgress((prev) =>
-        prev
-          ? {
-              ...prev,
-              running: false,
-              batchMessage: message,
-            }
-          : null,
-      );
-    } finally {
-      setImporting(false);
+      batchStart = data.nextBatchStart ?? completedRows;
     }
+
+    setResult((prev) => ({
+      ...(prev ?? { ok: true, message: finalMessage }),
+      ok: true,
+      mode: "import",
+      message: finalMessage,
+      totalRows,
+      results: aggregatedResults,
+    }));
+
+    setProgress((prev) =>
+      prev
+        ? {
+            ...prev,
+            completedRows: totalRows,
+            percentage: 100,
+            running: false,
+            batchMessage: finalMessage,
+          }
+        : null,
+    );
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "Import failed";
+
+    setResult((prev) => ({
+      ...(prev ?? { ok: false, message }),
+      ok: false,
+      message,
+      mode: "import",
+    }));
+
+    setProgress((prev) =>
+      prev
+        ? {
+            ...prev,
+            running: false,
+            batchMessage: message,
+          }
+        : null,
+    );
+  } finally {
+    setImporting(false);
   }
+}
 
   function updateFieldMapping(field: CanonicalField, sourceColumn: string) {
     setManualHeaderMap((prev) => ({
