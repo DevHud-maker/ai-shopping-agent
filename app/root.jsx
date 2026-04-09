@@ -1,4 +1,3 @@
-import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 import {
   Links,
   Meta,
@@ -11,7 +10,7 @@ import { boundary } from "@shopify/shopify-app-react-router/server";
 import { AppProvider } from "@shopify/shopify-app-react-router/react";
 import { authenticate } from "./shopify.server";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }) => {
   await authenticate.admin(request);
 
   return {
@@ -20,7 +19,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export default function App() {
-  const { apiKey } = useLoaderData<typeof loader>();
+  const { apiKey } = useLoaderData();
 
   return (
     <html>
@@ -39,6 +38,6 @@ export default function App() {
   );
 }
 
-export const headers = (headersArgs: Parameters<typeof boundary.headers>[0]) => {
+export const headers = (headersArgs) => {
   return boundary.headers(headersArgs);
 };
