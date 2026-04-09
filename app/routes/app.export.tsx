@@ -535,27 +535,13 @@ export default function ExportPage() {
     !!message &&
     /failed|error|denied|missing|not approved|access|unauthorized/i.test(message);
 
-  function redirectToUpgrade(upgradeUrl?: string) {
-    const url = upgradeUrl || "/app/upgrade";
-
-    if (url.startsWith("/")) {
-      window.location.assign(url);
-      return;
-    }
-
-    window.open(url, "_top");
-  }
-
   useEffect(() => {
     if (!activeJob?.id) return;
     if (activeJob.status === "completed" || activeJob.status === "failed") return;
 
     const timer = setInterval(async () => {
       try {
-        const res = await fetch(
-          `/app/export-status?id=${encodeURIComponent(activeJob.id)}`,
-          { credentials: "same-origin" },
-        );
+        const res = await fetch(`/app/export-status?id=${encodeURIComponent(activeJob.id)}`);
         const text = await res.text();
         const data = JSON.parse(text);
 
@@ -577,10 +563,7 @@ export default function ExportPage() {
 
   async function refreshSchedules() {
     try {
-      const res = await fetch(
-        "/app/export-schedules",
-        { credentials: "same-origin" },
-      );
+      const res = await fetch("/app/export-schedules");
       const text = await res.text();
       const data = JSON.parse(text);
       if (Array.isArray(data)) {
@@ -782,27 +765,11 @@ export default function ExportPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(config),
-      credentials: "same-origin",
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-
-      try {
-        const parsed = JSON.parse(errorText);
-
-        if (
-          (parsed?.code === "PLAN_REQUIRED" || parsed?.code === "PLAN_LIMIT") &&
-          parsed?.upgradeUrl
-        ) {
-          redirectToUpgrade(parsed.upgradeUrl);
-          return;
-        }
-
-        throw new Error(parsed?.message || "Export failed.");
-      } catch {
-        throw new Error(errorText || "Export failed.");
-      }
+      throw new Error(errorText || "Export failed.");
     }
 
     const blob = await response.blob();
@@ -829,31 +796,19 @@ export default function ExportPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(config),
-      credentials: "same-origin",
     });
 
     const text = await response.text();
     const data = JSON.parse(text);
 
     if (!response.ok || !data.ok) {
-      if (
-        (data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") &&
-        data?.upgradeUrl
-      ) {
-        redirectToUpgrade(data.upgradeUrl);
-        return;
-      }
-
       throw new Error(data?.message || "Failed to start bulk export.");
     }
 
     setMessage(data.message || "Bulk export job started.");
 
     if (data.jobId) {
-      const statusRes = await fetch(
-        `/app/export-status?id=${encodeURIComponent(data.jobId)}`,
-        { credentials: "same-origin" },
-      );
+      const statusRes = await fetch(`/app/export-status?id=${encodeURIComponent(data.jobId)}`);
       const statusText = await statusRes.text();
       const statusData = JSON.parse(statusText);
       if (statusRes.ok) {
@@ -904,21 +859,12 @@ export default function ExportPage() {
           action: "create",
           config,
         }),
-        credentials: "same-origin",
       });
 
       const text = await res.text();
       const data = JSON.parse(text);
 
       if (!res.ok || !data.ok) {
-        if (
-          (data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") &&
-          data?.upgradeUrl
-        ) {
-          redirectToUpgrade(data.upgradeUrl);
-          return;
-        }
-
         setMessage(data?.message || "Failed to save schedule.");
         return;
       }
@@ -944,22 +890,11 @@ export default function ExportPage() {
           id,
           enabled,
         }),
-        credentials: "same-origin",
       });
 
-      const text = await res.text();
-      const data = JSON.parse(text);
-
-      if (!res.ok || (data && data.ok === false)) {
-        if (
-          (data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") &&
-          data?.upgradeUrl
-        ) {
-          redirectToUpgrade(data.upgradeUrl);
-          return;
-        }
-
-        throw new Error(data?.message || "Failed to update schedule.");
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to update schedule.");
       }
 
       await refreshSchedules();
@@ -979,22 +914,11 @@ export default function ExportPage() {
           action: "delete",
           id,
         }),
-        credentials: "same-origin",
       });
 
-      const text = await res.text();
-      const data = JSON.parse(text);
-
-      if (!res.ok || (data && data.ok === false)) {
-        if (
-          (data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") &&
-          data?.upgradeUrl
-        ) {
-          redirectToUpgrade(data.upgradeUrl);
-          return;
-        }
-
-        throw new Error(data?.message || "Failed to delete schedule.");
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to delete schedule.");
       }
 
       await refreshSchedules();
@@ -1743,10 +1667,7 @@ export default function ExportPage() {
                 style={smallButtonStyle()}
                 onClick={async () => {
                   if (!activeJob?.id) return;
-                  const res = await fetch(
-                    `/app/export-status?id=${encodeURIComponent(activeJob.id)}`,
-                    { credentials: "same-origin" },
-                  );
+                  const res = await fetch(`/app/export-status?id=${encodeURIComponent(activeJob.id)}`);
                   const text = await res.text();
                   const data = JSON.parse(text);
                   if (res.ok) {

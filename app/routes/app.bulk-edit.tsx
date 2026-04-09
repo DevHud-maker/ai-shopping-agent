@@ -271,13 +271,9 @@ export default function BulkEditPage() {
       });
 
       const data = await res.json();
-if (!res.ok || !data.ok) {
-  if ((data?.code === "PLAN_REQUIRED" || data?.code === "PLAN_LIMIT") && data?.upgradeUrl) {
-    window.location.href = data.upgradeUrl;
-    return;
-  }
-  throw new Error(data.message || "Failed to load rows.");
-}
+      if (!res.ok || !data.ok) {
+        throw new Error(data.message || "Failed to load rows.");
+      }
 
       setRows(data.rows || []);
       setSelectedIds([]);
@@ -380,12 +376,8 @@ if (!res.ok || !data.ok) {
 
         const data = await res.json();
         if (!res.ok || !data.ok) {
-  if (data?.code === "PLAN_REQUIRED" && data?.upgradeUrl) {
-    window.location.href = data.upgradeUrl;
-    return;
-  }
-  throw new Error(data.message || "Request failed.");
-}
+          throw new Error(data.message || "Save failed.");
+        }
       }
 
       setMessage(`Saved ${selectedIds.length} ${entity}.`);
@@ -418,13 +410,9 @@ if (!res.ok || !data.ok) {
       });
 
       const data = await res.json();
-if (!res.ok || !data.ok) {
-  if (data?.code === "PLAN_REQUIRED" && data?.upgradeUrl) {
-    window.location.href = data.upgradeUrl;
-    return;
-  }
-  throw new Error(data.message || "Request failed.");
-}
+      if (!res.ok || !data.ok) {
+        throw new Error(data.message || "CSV apply failed.");
+      }
 
       setMessage(data.message);
       await loadRows();
@@ -680,7 +668,7 @@ if (!res.ok || !data.ok) {
             </div>
 
             <div style={miniHelpStyle}>
-              Free plan: import up to 100 rows. Upgrade to unlock unlimited imports and premium bulk actions.
+              Use the image column plus local filters in the grid to find products visually faster.
             </div>
           </section>
 

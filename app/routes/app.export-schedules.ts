@@ -1,7 +1,6 @@
 import { data } from "react-router";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "react-router";
 import { authenticate } from "../shopify.server";
-import { getCurrentPlan } from "../services/plan.server";
 import type { ExportConfig } from "../services/export/export.server";
 import {
   computeInitialNextRun,
@@ -18,21 +17,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export async function action({ request }: ActionFunctionArgs) {
-  const { admin, session } = await authenticate.admin(request);
+  const { session } = await authenticate.admin(request);
   const body = await request.json();
-  const plan = await getCurrentPlan(admin);
-
-  if (!plan.hasPaidPlan) {
-    return data(
-      {
-        ok: false,
-        code: "PLAN_REQUIRED",
-        message: "Scheduled exports are available on the Pro plan.",
-        upgradeUrl: "/app/upgrade",
-      },
-      { status: 402 },
-    );
-  }
 
   if (body.action === "create") {
     const config = body.config as ExportConfig;
