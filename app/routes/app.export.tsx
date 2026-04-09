@@ -684,12 +684,13 @@ export default function ExportPage() {
       setMessage("");
 
       const response = await fetch(
-        `/app/export-download?id=${encodeURIComponent(jobId)}`,
-        {
-          method: "GET",
-          credentials: "same-origin",
-        },
-      );
+  window.location.origin +
+    `/app/export-download?id=${encodeURIComponent(jobId)}`,
+  {
+    method: "GET",
+    credentials: "same-origin",
+  },
+);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -724,12 +725,13 @@ export default function ExportPage() {
       setMessage("");
 
       const response = await fetch(
-        `/app/export-schedule-download?id=${encodeURIComponent(scheduleId)}`,
-        {
-          method: "GET",
-          credentials: "same-origin",
-        },
-      );
+  window.location.origin +
+    `/app/export-schedule-download?id=${encodeURIComponent(scheduleId)}`,
+  {
+    method: "GET",
+    credentials: "same-origin",
+  },
+);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -759,14 +761,14 @@ export default function ExportPage() {
   }
 
 async function downloadDirectFile() {
-  const response = await fetch("/app/export-api", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(config),
-    credentials: "same-origin",
-  });
+  const response = await fetch(window.location.origin + "/app/export-api", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(config),
+  credentials: "same-origin",
+});
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -807,14 +809,14 @@ async function downloadDirectFile() {
 
 
 async function startBulkExport() {
-  const response = await fetch("/app/export-start", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(config),
-    credentials: "same-origin",
-  });
+  const response = await fetch(window.location.origin + "/app/export-start", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(config),
+  credentials: "same-origin",
+});
 
   const text = await response.text();
   const data = JSON.parse(text);
@@ -835,8 +837,10 @@ async function startBulkExport() {
 
   if (data.jobId) {
     const statusRes = await fetch(
-      `/app/export-status?id=${encodeURIComponent(data.jobId)}`
-    );
+  window.location.origin +
+    `/app/export-status?id=${encodeURIComponent(data.jobId)}`,
+  { credentials: "same-origin" },
+);
     const statusText = await statusRes.text();
     const statusData = JSON.parse(statusText);
     if (statusRes.ok) {

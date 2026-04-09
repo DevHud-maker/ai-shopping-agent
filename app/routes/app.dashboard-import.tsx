@@ -344,10 +344,14 @@ export default function DashboardImportPage() {
         form.append("batchStart", String(batchStart));
         form.append("batchSize", String(batchSize));
 
-        const res = await fetch("/app/dashboard-import-api", {
-          method: "POST",
-          body: form,
-        });
+const res = await fetch(
+  window.location.origin + "/app/dashboard-import-api",
+  {
+    method: "POST",
+    body: form,
+    credentials: "same-origin",
+  },
+);
 
         const data: ImportResponse = await parseJsonResponse(res);
 
